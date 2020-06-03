@@ -1,4 +1,6 @@
 import React from 'react';
+import Editor from '../Editor';
+import Elements from '../Elements';
 import './App.css';
 
 function App() {
@@ -10,7 +12,8 @@ function App() {
       </header>
       <div className="App-container center">
         {/* <textarea className="page"></textarea> */}
-        <div className="page" contentEditable></div>
+        <Elements/>
+        <Editor/>
       </div>
     </div>
   );
