@@ -6,8 +6,8 @@ function Charector(props) {
     const {addParanthetical, addDialogue} = props;
     return <div className="charector">
         <EditableDiv placeholder="Charector name"/>
-        <Button variant="contained" onClick={addParanthetical}>Paranthetical</Button>
-        <Button variant="contained" onClick={addDialogue}>Dialog</Button>
+        <Button variant="outlined" onClick={addParanthetical}>Paranthetical</Button>
+        <Button variant="outlined" onClick={addDialogue}>Dialog</Button>
         </div>
 }
 

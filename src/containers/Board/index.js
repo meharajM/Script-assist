@@ -10,8 +10,11 @@ function Board(props) {
     const addParanthetical = function () {
         setElemetsListToState({type: constants.PARANTHETICAL})
     }
+    const addTransition = () => {
+        setElemetsListToState({type: constants.TRANSITION})
+    }
     const addDialogue = () => {
-        setElemetsListToState({type: constants.DIALOGUE})
+        setElemetsListToState({type: constants.DIALOGUE, addTransition})
     }
     const insertChar = function() {
         setElemetsListToState({type: constants.CHARECTOR, addDialogue, addParanthetical})

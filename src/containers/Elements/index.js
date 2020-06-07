@@ -7,8 +7,9 @@ import Charector from '../../components/Charector';
 import constants from '../../constants';
 import Paranthetical from '../../components/Paranthetical';
 import Dialogue from '../../components/Dialogue';
+import Transition from '../../components/Transition';
 function Elements(props) {
-    const {type, addAction, insChar, addParanthetical, addDialogue} = props;
+    const {type, addAction, insChar, addParanthetical, addDialogue, addTransition} = props;
     let element = null; 
     switch(type) {
         case constants.SCENE_HEADING:
@@ -24,8 +25,10 @@ function Elements(props) {
             element = (<Paranthetical/>);
             break;
         case constants.DIALOGUE:
-            element = (<Dialogue/>);
+            element = (<Dialogue addTransition={addTransition}/>);
             break;
+        case constants.TRANSITION:
+            element = (<Transition />)
         default: 
 
     }

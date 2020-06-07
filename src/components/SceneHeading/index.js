@@ -14,7 +14,7 @@ function SceneHeading(props) {
             }
         }} placeholder="TIME ex: MORNING, NIGHT"></EditableDiv>
         
-        <div><Button variant="contained" onClick={addAction}>Add Action</Button></div>
+        <div><Button variant="outlined" onClick={addAction}>Add Action</Button></div>
     </div>;
 }
 

@@ -6,7 +6,7 @@ function Action(props) {
     const {insChar} = props;
     return (<div className="action">
         <EditableDiv placeholder="Action"/>
-        <Button variant="contained" onClick={insChar}>Insert Charector</Button>
+        <Button variant="outlined" onClick={insChar}>Insert Charector</Button>
     </div>)
 }
 

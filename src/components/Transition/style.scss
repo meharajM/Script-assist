@@ -1,0 +1,9 @@
+.transition{
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    justify-content: flex-end;
+    div{
+        min-width: 200px;
+    }
+}
