@@ -1,22 +1,46 @@
 import React from 'react';
 import Editor from '../Editor';
 import Elements from '../Elements';
+import Charector from '../../components/Charector';
+import {CHAR} from '../../constants'
 import './App.css';
-
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header center">
-       Script assist
-        
-      </header>
-      <div className="App-container center">
-        {/* <textarea className="page"></textarea> */}
-        <Elements/>
-        <Editor/>
+class App extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      content: ""
+    }
+    this.editor = React.createRef();
+  }
+  onContentChange = (ev) => {
+    this.setState({content: ev.currentTarget})
+  }
+  onAddElement = (ele) => {
+    this.setState((prevState) => {
+      let {content} = prevState;
+      switch(ele) {
+        case CHAR:
+      content = `${content} ${<Charector name="meharaj"/>}`
+          break;
+        default: 
+      }
+      return {...prevState, content};
+    })
+  }
+  render() {
+    return (
+      <div className="App">
+        <header className="App-header center">
+         Script assist
+        </header>
+        <div className="App-container center">
+          {/* <Elements onAddElement={this.onAddElement}/> */}
+          {/* <Editor onChange={this.onContentChange} editorRef={this.editor} /> */}
+        </div>
       </div>
-    </div>
-  );
+    );
+  }
+  
 }
 
 export default App;
