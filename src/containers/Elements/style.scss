@@ -9,3 +9,12 @@
         font-weight: bolder;
     }
 }
+.scene-heading{
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    input{
+        text-transform: uppercase;
+        margin-right: 4px;
+    }
+}

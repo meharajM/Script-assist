@@ -28,6 +28,7 @@
 .App-container {
   height: 80vh;
   width: 90vw;
+  padding: 4px;
   background-color: white;
   align-items: center;
   margin-left: 5vw;

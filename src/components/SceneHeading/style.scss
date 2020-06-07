@@ -1,0 +1,20 @@
+.scene-heading{
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    
+    div{
+        margin-right: 8px;
+        text-transform: uppercase;   
+        height: 36px;
+        line-height: 36px;     
+    }
+    .int-ext, .location, .time{
+        text-align: left;
+        min-width: 100px;
+    }
+    .time{
+        min-width: 300px;
+    }
+
+}
