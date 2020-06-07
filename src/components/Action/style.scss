@@ -1,0 +1,12 @@
+.action{
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    div{
+        margin-right: 8px;
+        height: 36px;
+        line-height: 36px;   
+        min-width: 400px;  
+        text-align: left;
+    }
+}

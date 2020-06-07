@@ -1,13 +1,26 @@
 import React, {useState} from 'react';
 import Element from '../Elements'
 import './style.scss';
+import constants from '../../constants';
 function Board(props) {
     const {elements} = props
-    const addAction = function() {
-        debugger
-        setElemetsList(prevElList => [...prevElList, {type: 'ACTION'}] )
+    const setElemetsListToState = (newEle) => {
+        setElemetsList(prevElList => [...prevElList, newEle] )
     }
-    const [elementsList, setElemetsList] = useState(elements || [{type: "SCENE_HEADING", addAction: addAction}]);
+    const addParanthetical = function () {
+        setElemetsListToState({type: constants.PARANTHETICAL})
+    }
+    const addDialogue = () => {
+        setElemetsListToState({type: constants.DIALOGUE})
+    }
+    const insertChar = function() {
+        setElemetsListToState({type: constants.CHARECTOR, addDialogue, addParanthetical})
+    }
+    const addAction = function() {
+        setElemetsListToState({type: constants.ACTION, insChar: insertChar})
+    }
+   
+    const [elementsList, setElemetsList] = useState(elements || [{type: constants.SCENE_HEADING, addAction: addAction}]);
 
     return <div className="board">
         {elementsList.map(el => <Element {...el}/>)}

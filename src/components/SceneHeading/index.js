@@ -6,7 +6,7 @@ function SceneHeading(props) {
     const {addAction} = props;
     return <div className="scene-heading">
                 
-        <EditableDiv className="int-ext" placeholder="INT/EXT."/>
+        <EditableDiv className="int-ext" placeholder="INT/EXT"/>
         <EditableDiv className="location" placeholder="LOCATION"/>
         <EditableDiv className="time" contentEditable={true} onKeyPress={(ev) => {
             if(ev.which === 13) {
@@ -14,7 +14,7 @@ function SceneHeading(props) {
             }
         }} placeholder="TIME ex: MORNING, NIGHT"></EditableDiv>
         
-        <div><Button onClick={addAction}>Add Action</Button></div>
+        <div><Button variant="contained" onClick={addAction}>Add Action</Button></div>
     </div>;
 }
 

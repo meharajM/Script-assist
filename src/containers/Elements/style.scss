@@ -1,20 +1,3 @@
-.elements {
-    position: fixed;
-    top: 0;
-    left: 0;
-    
-    button {
-        height: 40px;
-        padding: 4px;
-        font-weight: bolder;
-    }
-}
-.scene-heading{
-    display: flex;
-    flex-direction: row;
-    align-items: flex-start;
-    input{
-        text-transform: uppercase;
-        margin-right: 4px;
-    }
+.element {
+    margin: 16px 0;
 }

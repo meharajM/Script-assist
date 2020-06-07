@@ -1,26 +1,13 @@
-.scene-heading{
+.charector{
     display: flex;
     flex-direction: row;
     align-items: flex-start;
-    
+    justify-content: center;
     div{
         margin-right: 8px;
         text-transform: uppercase;   
         height: 36px;
         line-height: 36px;     
-    }
-    .int-ext, .location, .time{
-        text-align: left;
-        min-width: 100px;
-    }
-    .time{
         min-width: 300px;
     }
-    .int-ext:after{
-        content: ".";
-    }
-    .time:before{
-        content: "- ";
-    }
-
 }

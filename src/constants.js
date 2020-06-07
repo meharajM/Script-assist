@@ -1,1 +1,12 @@
-export const CHAR = "Character Name";
+ const CHARECTOR = "CHARECTOR";
+ const ACTION = "ACTION";
+ const PARANTHETICAL = "PARANTHETICAL";
+ const DIALOGUE = "DIALOGUE";
+ const SCENE_HEADING = "SCENE_HEADING"
+ export default {
+    CHARECTOR,
+    ACTION,
+    PARANTHETICAL,
+    DIALOGUE,
+    SCENE_HEADING
+ }
