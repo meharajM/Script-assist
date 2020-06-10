@@ -1,12 +1,9 @@
 import React from 'react';
 import EditableDiv from '../EditableDiv';
-import { Button } from '@material-ui/core';
 import './style.scss';
-function Action(props) {
-    const {insChar} = props;
+function Action({onKeyPress}) {
     return (<div className="action">
-        <EditableDiv placeholder="Action"/>
-        <Button variant="outlined" onClick={insChar}>Insert Charector</Button>
+        <EditableDiv placeholder="Action" onKeyPress={onKeyPress}/>
     </div>)
 }
 

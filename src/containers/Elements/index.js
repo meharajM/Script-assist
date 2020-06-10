@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import PropTypes from 'prop-types'
 import './style.scss';
 import SceneHeading from '../../components/SceneHeading';
@@ -8,32 +8,41 @@ import constants from '../../constants';
 import Paranthetical from '../../components/Paranthetical';
 import Dialogue from '../../components/Dialogue';
 import Transition from '../../components/Transition';
+import ElementOptions from '../../components/ElementOptions';
 function Elements(props) {
-    const {type, addAction, insChar, addParanthetical, addDialogue, addTransition} = props;
+    const {type} = props;
+    const [show, setShow] = useState(false);
     let element = null; 
+    const onKeyPress = (e) => {
+        if(e.key === 'Enter' && e.shiftKey) {
+            setShow((prevState) => !prevState)
+            e.preventDefault();
+        }
+    }   
     switch(type) {
         case constants.SCENE_HEADING:
-            element = (<SceneHeading addAction={addAction}/>);
+            element = (<SceneHeading onKeyPress={onKeyPress}/>);
             break;
         case constants.ACTION: 
-            element = (<Action insChar={insChar}/>);
+            element = (<Action onKeyPress={onKeyPress}/>);
             break;
         case constants.CHARECTOR:
-            element = (<Charector addParanthetical={addParanthetical} addDialogue={addDialogue} />);
+            element = (<Charector onKeyPress={onKeyPress}/>);
             break;
         case constants.PARANTHETICAL:
-            element = (<Paranthetical/>);
+            element = (<Paranthetical onKeyPress={onKeyPress}/>);
             break;
         case constants.DIALOGUE:
-            element = (<Dialogue addTransition={addTransition}/>);
+            element = (<Dialogue onKeyPress={onKeyPress}/>);
             break;
         case constants.TRANSITION:
-            element = (<Transition />)
+            element = (<Transition onKeyPress={onKeyPress}/>)
         default: 
 
     }
     return <div className="element">
         {element}
+        <ElementOptions show={show} {...props} handleClose={() => { setShow(false)}}/>
     </div>
     
 }
