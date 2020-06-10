@@ -25,7 +25,7 @@ function Board(props) {
     const addSceneHeading = () => {
         setElemetsListToState({type: constants.SCENE_HEADING, })
     }
-    const commonProps = {addTransition,addDialogue, addParanthetical, insChar: insertChar, addSceneHeading}
+    const commonProps = {addAction, addTransition,addDialogue, addParanthetical, insChar: insertChar, addSceneHeading}
     
     const [elementsList, setElemetsList] = useState(elements || [{type: constants.SCENE_HEADING}]);
 
