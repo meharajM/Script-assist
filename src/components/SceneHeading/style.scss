@@ -5,22 +5,26 @@
     
     div{
         margin-right: 8px;
-        text-transform: uppercase;   
-        height: 36px;
-        line-height: 36px;     
+        text-transform: uppercase;     
     }
     .int-ext, .location, .time{
         text-align: left;
-        min-width: 100px;
     }
     .time{
-        min-width: 300px;
+        min-width: 100px;
+        &:before{
+            content: "- ";
+        }
     }
-    .int-ext:after{
-        content: ".";
+    .int-ext {
+        min-width: 25px;
+        &:after{
+            content: ".";
+        }
     }
-    .time:before{
-        content: "- ";
+    .location{
+        min-width: 50px;
     }
+   
 
 }

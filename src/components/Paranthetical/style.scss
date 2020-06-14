@@ -4,9 +4,7 @@
     align-items: flex-start;
     justify-content: center;
     div{
-        margin-right: 8px;
-        height: 36px;
-        line-height: 36px;     
+        margin-right: 8px;  
         min-width: 300px;
         &:before{
             content: "(";

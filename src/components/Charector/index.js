@@ -1,10 +1,10 @@
 import React from 'react';
 import EditableDiv from '../EditableDiv'
 import './style.scss';
-function Charector({onKeyPress}) {
+function Charector(props) {
 
     return <div className="charector">
-        <EditableDiv placeholder="Charector name" onKeyPress={onKeyPress}/>
+        <EditableDiv placeholder="Charector name" {...props}/>
 
         </div>
 }

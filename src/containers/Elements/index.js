@@ -9,34 +9,38 @@ import Paranthetical from '../../components/Paranthetical';
 import Dialogue from '../../components/Dialogue';
 import Transition from '../../components/Transition';
 import ElementOptions from '../../components/ElementOptions';
-function Elements(props) {
-    const {type} = props;
+function Element(props) {
+    const {type, removeElement, id} = props;
     const [show, setShow] = useState(false);
     let element = null; 
-    const onKeyPress = (e) => {
+    const onKeyDown = (e) => {
+        const content = e.currentTarget.innerText.trim();
         if(e.key === 'Enter' && e.shiftKey) {
             setShow((prevState) => !prevState)
+            e.preventDefault();
+        } else if(e.key === 'Backspace' && !content.length) {
+            removeElement(id)
             e.preventDefault();
         }
     }   
     switch(type) {
         case constants.SCENE_HEADING:
-            element = (<SceneHeading onKeyPress={onKeyPress}/>);
+            element = (<SceneHeading onKeyDown={onKeyDown}/>);
             break;
         case constants.ACTION: 
-            element = (<Action onKeyPress={onKeyPress}/>);
+            element = (<Action onKeyDown={onKeyDown}/>);
             break;
         case constants.CHARECTOR:
-            element = (<Charector onKeyPress={onKeyPress}/>);
+            element = (<Charector onKeyDown={onKeyDown}/>);
             break;
         case constants.PARANTHETICAL:
-            element = (<Paranthetical onKeyPress={onKeyPress}/>);
+            element = (<Paranthetical onKeyDown={onKeyDown}/>);
             break;
         case constants.DIALOGUE:
-            element = (<Dialogue onKeyPress={onKeyPress}/>);
+            element = (<Dialogue onKeyDown={onKeyDown}/>);
             break;
         case constants.TRANSITION:
-            element = (<Transition onKeyPress={onKeyPress}/>)
+            element = (<Transition onKeyDown={onKeyDown}/>)
         default: 
 
     }
@@ -46,7 +50,7 @@ function Elements(props) {
     </div>
     
 }
-Elements.propTypes = {
+Element.propTypes = {
     onAddElement: PropTypes.func.isRequired,
 }
-export default Elements;
+export default Element;

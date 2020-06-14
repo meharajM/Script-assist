@@ -6,6 +6,7 @@ function Transition(props) {
     return <div className="transition">
         <Select
           id="transition-select"
+          {...props}
         >
           <MenuItem value={'FADEIN'}>FADE IN</MenuItem>
           <MenuItem value={'FADEOUT'}>FADE OUT</MenuItem>

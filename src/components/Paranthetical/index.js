@@ -1,10 +1,10 @@
 import React from 'react';
 import EditableDiv from '../EditableDiv';
 import './style.scss';
-function Paranthetical({onKeyPress}) {
+function Paranthetical(props) {
 
     return (<div className="paranthetical">
-        <EditableDiv placeholder="describe state of charector" onKeyPress={onKeyPress}/>
+        <EditableDiv placeholder="describe state of charector" {...props}/>
     </div>)
 }
 export default Paranthetical;

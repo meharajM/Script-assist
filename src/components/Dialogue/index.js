@@ -1,10 +1,10 @@
 import React from 'react';
 import EditableDiv from '../EditableDiv';
 import './style.scss';
-function Dialogue({onKeyPress}) {
+function Dialogue(props) {
 
     return (<div className="dialogue">
-        <EditableDiv placeholder="Dialogue" onKeyPress={onKeyPress}/>
+        <EditableDiv placeholder="Dialogue" {...props}/>
     </div>)
 }
 export default Dialogue;

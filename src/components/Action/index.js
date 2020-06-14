@@ -1,9 +1,9 @@
 import React from 'react';
 import EditableDiv from '../EditableDiv';
 import './style.scss';
-function Action({onKeyPress}) {
+function Action(props) {
     return (<div className="action">
-        <EditableDiv placeholder="Action" onKeyPress={onKeyPress}/>
+        <EditableDiv placeholder="Action" {...props}/>
     </div>)
 }
 
