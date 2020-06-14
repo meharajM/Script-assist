@@ -12,7 +12,7 @@ function Board(props) {
         paranthetical: 0,
         transition: 0,
     }
-    const [elementsList, setElemetsList] = useState(elements || [{type: constants.SCENE_HEADING}]);
+    const [elementsList, setElemetsList] = useState(elements || [{type: constants.SCENE_HEADING, sceneNumber: elementsCount.sceneHeading}]);
 
     const setElemetsListToState = (newEle) => {
         setElemetsList(prevElList => [...prevElList, newEle] )
@@ -39,10 +39,10 @@ function Board(props) {
     }
     const addSceneHeading = () => {
         elementsCount.sceneHeading += 1;
-        setElemetsListToState({type: constants.SCENE_HEADING, id: `sceneHeading-${elementsCount.sceneHeading}`})
+        setElemetsListToState({type: constants.SCENE_HEADING, id: `sceneHeading-${elementsCount.sceneHeading}`, sceneNumber: elementsCount.sceneHeading})
     }
     const removeElement = (eleId) => {
-        setElemetsList(prevElList => prevElList.filter(el => el.id !== eleId))
+        setElemetsList(prevElList => eleId ? prevElList.filter(el => el.id !== eleId) : prevElList)
     }
     const commonProps = {removeElement, addAction, addTransition,addDialogue, addParanthetical, insChar: insertChar, addSceneHeading}
     

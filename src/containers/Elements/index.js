@@ -12,7 +12,7 @@ import ElementOptions from '../../components/ElementOptions';
 function Element(props) {
     const {type, removeElement, id} = props;
     const [show, setShow] = useState(false);
-    let element = null; 
+    let Element = null; 
     const onKeyDown = (e) => {
         const content = e.currentTarget.innerText.trim();
         if(e.key === 'Enter' && e.shiftKey) {
@@ -23,29 +23,30 @@ function Element(props) {
             e.preventDefault();
         }
     }   
+    const elementProps = {onKeyDown}
     switch(type) {
         case constants.SCENE_HEADING:
-            element = (<SceneHeading onKeyDown={onKeyDown}/>);
+            Element = SceneHeading;
             break;
         case constants.ACTION: 
-            element = (<Action onKeyDown={onKeyDown}/>);
+            Element = Action;
             break;
         case constants.CHARECTOR:
-            element = (<Charector onKeyDown={onKeyDown}/>);
+            Element = Charector;
             break;
         case constants.PARANTHETICAL:
-            element = (<Paranthetical onKeyDown={onKeyDown}/>);
+            Element = Paranthetical;
             break;
         case constants.DIALOGUE:
-            element = (<Dialogue onKeyDown={onKeyDown}/>);
+            Element = Dialogue;
             break;
         case constants.TRANSITION:
-            element = (<Transition onKeyDown={onKeyDown}/>)
+            Element = Transition;
         default: 
 
     }
     return <div className="element">
-        {element}
+        <Element {...elementProps} {...props}/>
         <ElementOptions show={show} {...props} handleClose={() => { setShow(false)}}/>
     </div>
     
