@@ -15,11 +15,18 @@ function Element(props) {
     let Element = null; 
     const onKeyDown = (e) => {
         const content = e.currentTarget.innerText.trim();
-        if(e.key === 'Enter' && e.shiftKey) {
+        const [currentElement, eleId, type] = e.currentTarget.id.split('-');
+        const isEnter = e.key === 'Enter';
+        const isBackSpace = e.key === 'Backspace';
+        if(isEnter && e.shiftKey) {
             setShow((prevState) => !prevState)
             e.preventDefault();
-        } else if(e.key === 'Backspace' && !content.length) {
-            removeElement(id)
+        } else if(isBackSpace && !content.length) {
+            if(currentElement !== 'sceneHeading' || (currentElement === 'sceneHeading' && type === 'int_ext')) {
+                removeElement(id)
+                e.preventDefault();
+            }  
+        } else if(isEnter && (currentElement === 'character' || currentElement === "paranthetical" || currentElement === "sceneHeading")) {
             e.preventDefault();
         }
     }   

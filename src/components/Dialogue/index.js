@@ -4,7 +4,9 @@ import './style.scss';
 function Dialogue(props) {
 
     return (<div className="dialogue">
-        <EditableDiv placeholder="Dialogue" {...props}/>
+        <div className="dialogue-container">
+            <EditableDiv placeholder="Dialogue" {...props}/>
+        </div>
     </div>)
 }
 export default Dialogue;

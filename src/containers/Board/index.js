@@ -1,5 +1,5 @@
-import React, {useState} from 'react';
-import Element from '../Elements'
+import React, {useState, useEffect, useRef} from 'react';
+import Elements from '../Elements'
 import './style.scss';
 import constants from '../../constants';
 function Board(props) {
@@ -12,10 +12,25 @@ function Board(props) {
         paranthetical: 0,
         transition: 0,
     }
-    const [elementsList, setElemetsList] = useState(elements || [{type: constants.SCENE_HEADING, sceneNumber: elementsCount.sceneHeading}]);
+    const [elementsList, setElemetsList] = useState(elements || [{type: constants.SCENE_HEADING, sceneNumber: elementsCount.sceneHeading, id: `sceneHeading-${elementsCount.sceneHeading}`}]);
+    const [currentElement, setCurrentElement] = useState(`sceneHeading-${elementsCount.sceneHeading}`)
+    let currentElementRef = useRef(null)
+
+    useEffect(() => {
+        if(currentElementRef && currentElementRef.focus) {
+            currentElementRef.focus();
+            document.execCommand('selectAll', false, null);
+            // collapse selection to the end
+            document.getSelection().collapseToEnd();
+        }
+    })
 
     const setElemetsListToState = (newEle) => {
         setElemetsList(prevElList => [...prevElList, newEle] )
+        setCurrentElement(newEle.id)
+    }
+    const setFocusedElement = element => {
+        currentElementRef = element;
     }
     const addParanthetical = function () {
         elementsCount.parantheticals += 1;
@@ -31,7 +46,7 @@ function Board(props) {
     }
     const insertChar = function() {
         elementsCount.charector += 1;
-        setElemetsListToState({type: constants.CHARECTOR, id: `charector-${elementsCount.charector}`})
+        setElemetsListToState({type: constants.CHARECTOR, id: `character-${elementsCount.charector}`})
     }
     const addAction = function() {
         elementsCount.action += 1;
@@ -42,13 +57,17 @@ function Board(props) {
         setElemetsListToState({type: constants.SCENE_HEADING, id: `sceneHeading-${elementsCount.sceneHeading}`, sceneNumber: elementsCount.sceneHeading})
     }
     const removeElement = (eleId) => {
-        setElemetsList(prevElList => eleId ? prevElList.filter(el => el.id !== eleId) : prevElList)
+        if(elementsList.length > 1 && eleId){
+            const newElementsList = elementsList.filter(el => el.id !== eleId);
+            setElemetsList(prevElList => eleId ? newElementsList : prevElList);
+            setCurrentElement(newElementsList[newElementsList.length - 1].id)
+        }
+
     }
     const commonProps = {removeElement, addAction, addTransition,addDialogue, addParanthetical, insChar: insertChar, addSceneHeading}
-    
 
     return <div className="board">
-        {elementsList.map(el => <Element {...el} {...commonProps}/>)}
+        {elementsList.map(el => <Elements {...el} {...commonProps} elementRef={el.id === currentElement ? setFocusedElement : null}/>)}
     </div>
 }
 

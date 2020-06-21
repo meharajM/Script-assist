@@ -1,17 +1,19 @@
 import React from 'react';
-import MenuItem from '@material-ui/core/MenuItem';
-import Select from '@material-ui/core/Select';
+import EditableDiv from '../EditableDiv';
 import './style.scss';
 function Transition(props) {
     return <div className="transition">
-        <Select
+        {/* <Select
           id="transition-select"
           {...props}
+          ref={props.elementRef}
         >
           <MenuItem value={'FADEIN'}>FADE IN</MenuItem>
           <MenuItem value={'FADEOUT'}>FADE OUT</MenuItem>
           <MenuItem value={"CUTTO"}>CUT TO</MenuItem>
-        </Select>
+        </Select> */}
+        <EditableDiv className="transition" contentEditable={true} placeholder="FADEIN/FADEOUT/CUTTO" {...props}></EditableDiv>
+
     </div>
 }
 export default Transition
