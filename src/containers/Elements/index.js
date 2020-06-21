@@ -9,6 +9,34 @@ import Paranthetical from '../../components/Paranthetical';
 import Dialogue from '../../components/Dialogue';
 import Transition from '../../components/Transition';
 import ElementOptions from '../../components/ElementOptions';
+function getAddElementAction(key, isShift, props) {
+    const { addAction, addTransition,addDialogue, addParanthetical, insChar, addSceneHeading} = props;
+    const action = isShift && key.toLowerCase();
+    let addElementAction;
+    switch(action) {
+        case 's':
+            addElementAction = addSceneHeading;
+            break;
+        case 'a':
+            addElementAction = addAction;
+            break;
+        case 't':
+            addElementAction = addTransition;
+            break;
+        case 'd':
+            addElementAction = addDialogue;
+            break;
+        case 'p':
+            addElementAction = addParanthetical;
+            break;
+        case 'c':
+            addElementAction = insChar;
+            break;
+        default: 
+            addElementAction = null;
+    }
+    return addElementAction;
+}
 function Element(props) {
     const {type, removeElement, id} = props;
     const [show, setShow] = useState(false);
@@ -18,7 +46,11 @@ function Element(props) {
         const [currentElement, eleId, type] = e.currentTarget.id.split('-');
         const isEnter = e.key === 'Enter';
         const isBackSpace = e.key === 'Backspace';
-        if(isEnter && e.shiftKey) {
+        const addElementAction = getAddElementAction(e.key, e.shiftKey, props);
+        if(addElementAction) {
+            addElementAction();
+            e.preventDefault();
+        } else if(isEnter && e.shiftKey) {
             setShow((prevState) => !prevState)
             e.preventDefault();
         } else if(isBackSpace && !content.length) {
