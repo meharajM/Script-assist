@@ -18,6 +18,11 @@
     }
     .int-ext {
         min-width: 25px;
+        &.input{
+            max-width: 100px;
+            margin: 0 4px 0 4px;
+            height: 24px;
+        }
         &:after{
             content: ".";
         }
