@@ -33,6 +33,7 @@
   align-items: center;
   margin-left: 5vw;
   border: 1px solid gray;
+  overflow: auto;
 }
 
 .App-link {

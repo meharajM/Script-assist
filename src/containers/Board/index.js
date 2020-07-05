@@ -3,19 +3,10 @@ import Elements from '../Elements'
 import './style.scss';
 import constants from '../../constants';
 function Board(props) {
-    const {elements} = props;
-    const [elementsCount, setElementCount] = useState({
-        sceneHeading: 1,
-        action: 0,
-        charector: 0,
-        dialogue: 0,
-        parantheticals: 0,
-        transition: 0,
-    });
+    const {elements, content, setElementCount, elementsCount} = props;
     const [elementsList, setElemetsList] = useState(elements || [{type: constants.SCENE_HEADING, sceneNumber: elementsCount.sceneHeading, id: `sceneHeading-${elementsCount.sceneHeading}`}]);
     const [currentElement, setCurrentElement] = useState(`sceneHeading-${elementsCount.sceneHeading}`)
     let currentElementRef = useRef(null)
-    const [content, setContent] = useState({});
     useEffect(() => {
         if(currentElementRef && currentElementRef.focus) {
             currentElementRef.focus();
@@ -34,31 +25,31 @@ function Board(props) {
     }
     const addParanthetical = function () {
         setElemetsListToState({type: constants.PARANTHETICAL, id: `paranthetical-${elementsCount.parantheticals}`})
-        setElementCount((prevCount) => ({...prevCount, parantheticals: prevCount.parantheticals + 1}));
+        setElementCount({parantheticals: elementsCount.parantheticals + 1});
         
     }
     const addTransition = () => {
         setElemetsListToState({type: constants.TRANSITION, id: `transition-${elementsCount.transition}`})
-        setElementCount((prevCount) => ({...prevCount, transition: prevCount.transition + 1}));
+        setElementCount({ transition: elementsCount.transition + 1});
     
     }
     const addDialogue = () => {
         setElemetsListToState({type: constants.DIALOGUE, id: `dialogue-${elementsCount.dialogue}`})
-        setElementCount((prevCount) => ({...prevCount, dialogue: prevCount.dialogue + 1}));
+        setElementCount({dialogue: elementsCount.dialogue + 1});
     
     }
     const insertChar = function() {
         setElemetsListToState({type: constants.CHARECTOR, id: `character-${elementsCount.charector}`})
-        setElementCount((prevCount) => ({...prevCount, charector: prevCount.charector + 1}));
+        setElementCount({ charector: elementsCount.charector + 1});
 
     }
     const addAction = function() {
         setElemetsListToState({type: constants.ACTION, id: `action-${elementsCount.action}`})
-        setElementCount((prevCount) => ({...prevCount, action: prevCount.action + 1}));
+        setElementCount({ action: elementsCount.action + 1});
     }
     const addSceneHeading = () => {
         setElemetsListToState({type: constants.SCENE_HEADING, id: `sceneHeading-${elementsCount.sceneHeading}`, sceneNumber: elementsCount.sceneHeading})
-        setElementCount((prevCount) => ({...prevCount, sceneHeading: prevCount.sceneHeading + 1}));
+        setElementCount({ sceneHeading: elementsCount.sceneHeading + 1});
     }
     const removeElement = (eleId) => {
         if(elementsList.length > 1 && eleId){
@@ -69,11 +60,12 @@ function Board(props) {
 
     }
     const onContentChange = (id, content) => {
-        setContent((prevContent) => {
-            const newContent = {...prevContent};
-            newContent[id] = content;
-            return newContent;
-        });
+        props.setContent(id, content);
+        // setContent((prevContent) => {
+        //     const newContent = {...prevContent};
+        //     newContent[id] = content;
+        //     return newContent;
+        // });
     }
     const commonProps = {removeElement, addAction, addTransition,addDialogue, addParanthetical, insChar: insertChar, addSceneHeading, onContentChange, content, onFocus: setCurrentElement}
 

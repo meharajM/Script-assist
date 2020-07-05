@@ -1,3 +1,11 @@
+.scene-heading-summary-header{
+    display: flex;
+    flex-direction: row;
+    .scene-heading-summary {
+        min-width: 300px;
+        text-align: left;
+    }
+}
 .scene-heading{
     display: flex;
     flex-direction: row;
