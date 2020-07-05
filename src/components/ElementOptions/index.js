@@ -15,8 +15,8 @@ function ElementOptions(props){
     <MenuItem onClick={() => onSelect(addSceneHeading)} >Scene heading</MenuItem>
     <MenuItem onClick={() => onSelect(addAction)}>Action</MenuItem>
     <MenuItem onClick={() => onSelect(insChar)} >Character</MenuItem>
-    <MenuItem onClick={() => onSelect(addDialogue)} >Dialogue</MenuItem>
     <MenuItem onClick={() => onSelect(addParanthetical)} >Paranthetical</MenuItem>
+    <MenuItem onClick={() => onSelect(addDialogue)} >Dialogue</MenuItem>
     <MenuItem onClick={() => onSelect(addTransition)} >Transition</MenuItem>
   </Menu>
 }

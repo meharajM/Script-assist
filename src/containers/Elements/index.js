@@ -49,8 +49,9 @@ class Element extends React.Component {
     }
     onKeyDown = (e) => {
         const {removeElement, id, onContentChange} = this.props;
-        const content = e.currentTarget.innerText;
-        const [currentElement, eleId, type] = e.currentTarget.id.split('-');
+        let content = e.currentTarget.innerText;
+        const fullId = e.currentTarget.id;
+        const [currentElement, eleId, type] = fullId.split('-');
         const isEnter = e.key === 'Enter';
         const isBackSpace = e.key === 'Backspace';
         const addElementAction = getAddElementAction(e.key, e.shiftKey, this.props);
@@ -68,7 +69,37 @@ class Element extends React.Component {
         } else if(isEnter && (currentElement === 'character' || currentElement === "paranthetical" || currentElement === "sceneHeading")) {
             e.preventDefault();
         } else {
-            onContentChange(e.currentTarget.id, content)
+                const key = e.key.toLowerCase();
+
+                if(currentElement === 'sceneHeading'){
+                    if(type === 'int_ext') {
+                        if(key === 'i') {
+                            content = 'INT';
+                        }else if(key === 'e'){
+                            content = 'EXT';
+                        }
+                    } else if(type === 'time') {
+                        if(content === 'd') {
+                            content = 'DAY';
+                        }else if(content === 'n'){
+                            content = 'NIGHT'
+                        }
+                    } else if(type === "location") {
+                        // onContentChange(location_id, ev.currentTarget.innerText.trim());
+
+                    }
+                } else if(currentElement === 'transition') {
+                    if(key === 'c') {
+                        content = 'CUT TO';
+                    } else if(content === 'fi') {
+                        content = 'FADE IN'
+                    } else if(content === 'fo') {
+                        content = 'FADE OUT';
+                    }
+                } 
+                
+            
+            onContentChange(fullId, content)
         }
     }   
 
