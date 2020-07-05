@@ -4,7 +4,7 @@ import './style.scss';
 function Charector(props) {
 
     return <div className="charector">
-        <EditableDiv placeholder="Character name" {...props}/>
+        <EditableDiv placeholder="Character name" {...props} value={props.content[props.id]}/>
 
         </div>
 }

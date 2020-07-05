@@ -12,7 +12,7 @@ function Transition(props) {
           <MenuItem value={'FADEOUT'}>FADE OUT</MenuItem>
           <MenuItem value={"CUTTO"}>CUT TO</MenuItem>
         </Select> */}
-        <EditableDiv className="transition" contentEditable={true} placeholder="FADEIN/FADEOUT/CUTTO" {...props}></EditableDiv>
+        <EditableDiv className="transition" contentEditable={true} placeholder="FADEIN/FADEOUT/CUTTO" {...props} value={props.content[props.id]}></EditableDiv>
 
     </div>
 }

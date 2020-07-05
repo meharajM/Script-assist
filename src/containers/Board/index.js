@@ -15,9 +15,10 @@ function Board(props) {
     const [elementsList, setElemetsList] = useState(elements || [{type: constants.SCENE_HEADING, sceneNumber: elementsCount.sceneHeading, id: `sceneHeading-${elementsCount.sceneHeading}`}]);
     const [currentElement, setCurrentElement] = useState(`sceneHeading-${elementsCount.sceneHeading}`)
     let currentElementRef = useRef(null)
-
+    const [content, setContent] = useState({});
     useEffect(() => {
         if(currentElementRef && currentElementRef.focus) {
+            debugger
             currentElementRef.focus();
             document.execCommand('selectAll', false, null);
             // collapse selection to the end
@@ -64,10 +65,17 @@ function Board(props) {
         }
 
     }
-    const commonProps = {removeElement, addAction, addTransition,addDialogue, addParanthetical, insChar: insertChar, addSceneHeading}
+    const onContentChange = (id, content) => {
+        setContent((prevContent) => {
+            const newContent = {...prevContent};
+            newContent[id] = content;
+            return newContent;
+        });
+    }
+    const commonProps = {removeElement, addAction, addTransition,addDialogue, addParanthetical, insChar: insertChar, addSceneHeading, onContentChange, content, onFocus: setCurrentElement}
 
     return <div className="board">
-        {elementsList.map(el => <Elements {...el} {...commonProps} elementRef={el.id === currentElement ? setFocusedElement : null}/>)}
+        {elementsList.map(el => <Elements key={el.id} {...el} {...commonProps} elementRef={el.id === currentElement ? setFocusedElement : null}/>)}
     </div>
 }
 

@@ -4,53 +4,61 @@ import EditableDiv from '../EditableDiv'
 import {getContexts} from '../../contexts';
 
 import './style.scss';
-function SceneHeading(props) {
-    const {elementRef, id, onKeyDown, ...rest} = props;
+class SceneHeading extends React.Component{
+    constructor(props) {
+        super(props);
+        const {id} = props;
+        this.int_id = `${id}-int_ext`;
+        this.location_id = `${id}-location`;
+        this.time_id = `${id}-time`;
+    }
 
-    const [intValue, setIntValues] = useState('');
-    const [timeValue, setTimeValues] = useState('');
-    const [locationValue, setLocationValues] = useState('');
-    
-    const onKeyUp = (ev) => {
-        let content = ev.currentTarget.innerText.trim();
+    onKeyDownHere = (ev) => {
+        const {int_id, time_id, location_id} = this;
+        const {onContentChange} = this.props;
+        let content = ev.key.toLowerCase();
         const fullId = ev.currentTarget.id;
         const [currentElement, eleId, type] = ev.currentTarget.id.split('-');
         if(currentElement === 'sceneHeading' && type === 'int_ext') {
-            if(content.toLowerCase() === 'i') {
+            if(content === 'i') {
                 content = 'INT';
-            }else if(content.toLowerCase() === 'e'){
-                content = 'EXT'
-            }else {
-                content = ''
+                onContentChange(int_id, content);
+            }else if(content === 'e'){
+                content = 'EXT';
+                onContentChange(int_id, content);
             }
-            setIntValues(content);
         }
         if(currentElement === 'sceneHeading' && type === 'time') {
-            if(content.toLowerCase() === 'd') {
+            if(content === 'd') {
                 content = 'DAY';
-            }else if(content.toLowerCase() === 'n'){
+                onContentChange(time_id, content);
+                ev.preventDefault();
+            }else if(content === 'n'){
                 content = 'NIGHT'
-            }else {
-                content = ''
+                onContentChange(time_id, content);
+                ev.preventDefault();
+
             }
-            setTimeValues(content);
-        } else {
-            setLocationValues(content)
+        } else if(type === "location") {
+            onContentChange(location_id, ev.currentTarget.innerText.trim());
+
         }
         
     }
 
 
-    const int_id = `${id}-int_ext`;
-    const location_id = `${id}-location`;
-    const time_id = `${id}-time`;
+   render() {
+       const {onKeyDownHere, int_id, location_id, time_id} = this;
+       const {content, sceneNumber, elementRef, onFocus, onKeyDown, ...rest} = this.props;
     return <div className="scene-heading">
-        <span className="scene-number">Scene {props.sceneNumber}: </span>
-        <EditableDiv key={int_id} className="int-ext" placeholder="INT/EXT" elementRef={elementRef} id={int_id} onKeyDown={onKeyDown} onKeyUp={onKeyUp} value={intValue} />
-        <EditableDiv key={location_id} className="location" placeholder="LOCATION" id={location_id} onKeyDown={onKeyDown} onKeyUp={onKeyUp}/>
-        <EditableDiv key={time_id} className="time" contentEditable={true} placeholder="DAY/NIGHT" {...rest} onKeyDown={onKeyDown} onKeyUp={onKeyUp} id={time_id} value={timeValue}></EditableDiv>
-        
+        <span className="scene-number">Scene {sceneNumber}: </span>
+        <EditableDiv key={int_id} className="int-ext" placeholder="INT/EXT" elementRef={elementRef} id={int_id} onKeyUp={onKeyDownHere} value={content[int_id]} onFocus={onFocus} onKeyDown={onKeyDown}/>
+        <EditableDiv key={location_id} className="location" placeholder="LOCATION" id={location_id} onKeyUp={onKeyDownHere} value={content[location_id]} onFocus={onFocus} onKeyDown={onKeyDown}/>
+        <EditableDiv key={time_id} className="time" contentEditable={true} placeholder="DAY/NIGHT" {...rest} onKeyUp={onKeyDownHere} id={time_id} value={content[time_id]} onFocus={onFocus} onKeyDown={onKeyDown}></EditableDiv>
+    
     </div>;
+   }
+   
 }
 
 export default SceneHeading;

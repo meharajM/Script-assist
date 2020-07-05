@@ -5,7 +5,7 @@ function Dialogue(props) {
 
     return (<div className="dialogue">
         <div className="dialogue-container">
-            <EditableDiv placeholder="Dialogue" {...props}/>
+            <EditableDiv placeholder="Dialogue" {...props} value={props.content[props.id]}/>
         </div>
     </div>)
 }

@@ -37,21 +37,28 @@ function getAddElementAction(key, isShift, props) {
     }
     return addElementAction;
 }
-function Element(props) {
-    const {type, removeElement, id} = props;
-    const [show, setShow] = useState(false);
-    let Element = null; 
-    const onKeyDown = (e) => {
+class Element extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            show: false,
+        }
+    }
+    setShow = (show) => {
+        this.setState({show});
+    }
+    onKeyDown = (e) => {
+        const {removeElement, id, onContentChange} = this.props;
         const content = e.currentTarget.innerText.trim();
         const [currentElement, eleId, type] = e.currentTarget.id.split('-');
         const isEnter = e.key === 'Enter';
         const isBackSpace = e.key === 'Backspace';
-        const addElementAction = getAddElementAction(e.key, e.shiftKey, props);
+        const addElementAction = getAddElementAction(e.key, e.shiftKey, this.props);
         if(addElementAction) {
             addElementAction();
             e.preventDefault();
         } else if(isEnter && e.shiftKey) {
-            setShow((prevState) => !prevState)
+            this.setShow(!this.state.show)
             e.preventDefault();
         } else if(isBackSpace && !content.length) {
             if(currentElement !== 'sceneHeading' || (currentElement === 'sceneHeading' && type === 'int_ext')) {
@@ -60,35 +67,43 @@ function Element(props) {
             }  
         } else if(isEnter && (currentElement === 'character' || currentElement === "paranthetical" || currentElement === "sceneHeading")) {
             e.preventDefault();
+        } else {
+            onContentChange(e.currentTarget.id, content)
         }
     }   
-    const elementProps = {onKeyDown}
-    switch(type) {
-        case constants.SCENE_HEADING:
-            Element = SceneHeading;
-            break;
-        case constants.ACTION: 
-            Element = Action;
-            break;
-        case constants.CHARECTOR:
-            Element = Charector;
-            break;
-        case constants.PARANTHETICAL:
-            Element = Paranthetical;
-            break;
-        case constants.DIALOGUE:
-            Element = Dialogue;
-            break;
-        case constants.TRANSITION:
-            Element = Transition;
-        default: 
 
+    render() {
+        const {type, id} = this.props;
+        const {show} = this.state;
+        const elementProps = {onKeyDown: this.onKeyDown}
+        let Element = null; 
+
+        switch(type) {
+            case constants.SCENE_HEADING:
+                Element = SceneHeading;
+                break;
+            case constants.ACTION: 
+                Element = Action;
+                break;
+            case constants.CHARECTOR:
+                Element = Charector;
+                break;
+            case constants.PARANTHETICAL:
+                Element = Paranthetical;
+                break;
+            case constants.DIALOGUE:
+                Element = Dialogue;
+                break;
+            case constants.TRANSITION:
+                Element = Transition;
+            default: 
+
+        }
+        return <div className="element">
+            <Element key={id} {...elementProps} {...this.props}/>
+            <ElementOptions show={show} {...this.props} handleClose={() => { this.setShow(false)}}/>
+        </div>
     }
-    return <div className="element">
-        <Element {...elementProps} {...props}/>
-        <ElementOptions show={show} {...props} handleClose={() => { setShow(false)}}/>
-    </div>
-    
 }
 Element.propTypes = {
     onAddElement: PropTypes.func.isRequired,
