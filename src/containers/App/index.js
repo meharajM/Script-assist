@@ -1,10 +1,12 @@
 import React from 'react';
+import { Tabs } from 'antd';
 // import Editor from '../Editor';
 // import Elements from '../Elements';
 import Board from '../Board'
 // import Charector from '../../components/Charector';
 // import {CHAR} from '../../constants'
 import './App.css';
+const { TabPane } = Tabs;
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -23,10 +25,10 @@ class App extends React.Component {
   }
   addBoard = () => {
     this.setState((prevState) => {
-      const {boards} = prevState;
-      const newBoard = {id: boards.length, note: ""};
+      const boards = [...prevState.boards];
+      const newBoard = {id: boards.length + 1, note: ""};
       boards.push(newBoard);
-      return {...prevState, boards: [...boards, newBoard]} 
+      return {...prevState, boards} 
     })
   }
   setContent = (id, value) => {
@@ -43,6 +45,9 @@ class App extends React.Component {
       return {...prevState, elementsCount: newElementsCount}
     })
   }
+  onTabChange = () => {
+
+  }
   render() {
     return (
       <div className="App">
@@ -52,7 +57,18 @@ class App extends React.Component {
         <div className="App-container">
           {/* <Elements onAddElement={this.onAddElement}/> */}
           {/* <Editor onChange={this.onContentChange} editorRef={this.editor} /> */}
-          {this.state.boards.map((board) => <Board key={board.id} id={board.id} content={this.state.content} setContent={this.setContent} elementsCount={this.state.elementsCount}/>)}
+          <Tabs defaultActiveKey="1" onChange={this.onTabChange}>
+          {this.state.boards.map((board, index) => <TabPane tab={`Scene-${index + 1}`} key={index}><Board 
+                                                key={board.id} 
+                                                id={board.id} 
+                                                content={this.state.content} 
+                                                setContent={this.setContent} 
+                                                elementsCount={this.state.elementsCount} 
+                                                setElementCount={this.setElementCount}
+                                                addBoard={this.addBoard}
+                                                /> </TabPane>)}
+          </Tabs>
+          
         </div>
       </div>
     );

@@ -3,7 +3,7 @@ import Elements from '../Elements'
 import './style.scss';
 import constants from '../../constants';
 function Board(props) {
-    const {elements, content, setElementCount, elementsCount} = props;
+    const {elements, content, setElementCount, elementsCount, addBoard} = props;
     const [elementsList, setElemetsList] = useState(elements || [{type: constants.SCENE_HEADING, sceneNumber: elementsCount.sceneHeading, id: `sceneHeading-${elementsCount.sceneHeading}`}]);
     const [currentElement, setCurrentElement] = useState(`sceneHeading-${elementsCount.sceneHeading}`)
     let currentElementRef = useRef(null)
@@ -48,8 +48,9 @@ function Board(props) {
         setElementCount({ action: elementsCount.action + 1});
     }
     const addSceneHeading = () => {
-        setElemetsListToState({type: constants.SCENE_HEADING, id: `sceneHeading-${elementsCount.sceneHeading}`, sceneNumber: elementsCount.sceneHeading})
+       // setElemetsListToState({type: constants.SCENE_HEADING, id: `sceneHeading-${elementsCount.sceneHeading}`, sceneNumber: elementsCount.sceneHeading})
         setElementCount({ sceneHeading: elementsCount.sceneHeading + 1});
+        addBoard();
     }
     const removeElement = (eleId) => {
         if(elementsList.length > 1 && eleId){
@@ -70,7 +71,7 @@ function Board(props) {
     const commonProps = {removeElement, addAction, addTransition,addDialogue, addParanthetical, insChar: insertChar, addSceneHeading, onContentChange, content, onFocus: setCurrentElement}
 
     return <div className="board">
-        {elementsList.map(el => <Elements key={el.id} {...el} {...commonProps} elementRef={el.id === currentElement ? setFocusedElement : null}/>)}
+        {elementsList.map(el => <Elements {...el} {...commonProps} elementRef={el.id === currentElement ? setFocusedElement : null}/>)}
     </div>
 }
 
