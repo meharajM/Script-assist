@@ -49,7 +49,7 @@ class Element extends React.Component {
     }
     onKeyDown = (e) => {
         const {removeElement, id, onContentChange} = this.props;
-        const content = e.currentTarget.innerText.trim();
+        const content = e.currentTarget.innerText;
         const [currentElement, eleId, type] = e.currentTarget.id.split('-');
         const isEnter = e.key === 'Enter';
         const isBackSpace = e.key === 'Backspace';
