@@ -34,6 +34,12 @@
   margin-left: 5vw;
   border: 1px solid gray;
   overflow: auto;
+  .boards{
+    height: 100%;
+    .ant-tabs-content-holder{
+      overflow: auto;
+    }
+  }
 }
 
 .App-link {
@@ -61,3 +67,4 @@
     width: 100px;
   }
 }
+
