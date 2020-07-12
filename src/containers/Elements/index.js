@@ -75,14 +75,20 @@ class Element extends React.Component {
                     if(type === 'int_ext') {
                         if(key === 'i') {
                             content = 'INT';
+                            e.preventDefault();
                         }else if(key === 'e'){
                             content = 'EXT';
+                            e.preventDefault();
                         }
                     } else if(type === 'time') {
-                        if(content === 'd') {
+                        if(key === 'd') {
                             content = 'DAY';
-                        }else if(content === 'n'){
+                            e.preventDefault();
+
+                        }else if(key === 'n'){
                             content = 'NIGHT'
+                            e.preventDefault();
+
                         }
                     } else if(type === "location") {
                         // onContentChange(location_id, ev.currentTarget.innerText.trim());

@@ -53,10 +53,12 @@ function Board(props) {
         addBoard();
     }
     const removeElement = (eleId) => {
+        const {setContent} = props;
         if(elementsList.length > 1 && eleId){
             const newElementsList = elementsList.filter(el => el.id !== eleId);
             setElemetsList(prevElList => eleId ? newElementsList : prevElList);
-            setCurrentElement(newElementsList[newElementsList.length - 1].id)
+            setCurrentElement(newElementsList[newElementsList.length - 1].id);
+            setContent(eleId, undefined, true);
         }
 
     }
