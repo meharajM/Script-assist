@@ -111,7 +111,7 @@ function Logline(props) {
                 </Descriptions>
             </PageHeader>
         </div>
-        <Title level={5}>Now put the three answers together as a sentence, and you have your logline! You will probably have to work on it some more.</Title>
+        <Title level={4}>Now put the three answers together as a sentence, and you have your logline! You will probably have to work on it some more.</Title>
         <Modal
           title="How to write log line"
           visible={visible}
