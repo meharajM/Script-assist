@@ -10,6 +10,7 @@ import Board from '../Board'
 // import {CHAR} from '../../constants'
 import constants from '../../constants';
 import './App.scss';
+import Logline from '../../components/Logline';
 const { TabPane } = Tabs;
 class App extends React.Component {
   constructor(props) {
@@ -23,7 +24,7 @@ class App extends React.Component {
       transition: 0,
   };
     this.state = {
-      boards: [{id: 1, note: ""}],
+      boards: [{id: 'logline', type: constants.LOGLINE, name: 'Logline'}, {id: 1, note: "", name: 'Scene-1'}],
       activeBoard: 1,
       content: {},
       scriptContent: new Map(),
@@ -53,7 +54,7 @@ class App extends React.Component {
   addBoard = () => {
     this.setState((prevState) => {
       const boards = [...prevState.boards];
-      const newBoard = {id: boards.length + 1, note: ""};
+      const newBoard = {id: boards.length + 1, note: "", name: `Scene-${boards.length + 1}`};
       boards.push(newBoard);
       return {...prevState, boards, activeBoard: newBoard.id} 
     })
@@ -98,7 +99,19 @@ class App extends React.Component {
           {/* <Elements onAddElement={this.onAddElement}/> */}
           {/* <Editor onChange={this.onContentChange} editorRef={this.editor} /> */}
           <Tabs activeKey={activeBoard.toString()} className="boards" onChange={this.onTabChange} tabPosition="top" type="editable-card" hideAdd={true}>
-          {this.state.boards.map((board, index) => <TabPane tab={`Scene-${index + 1}`} key={board.id.toString()}>
+          {this.state.boards.map((board, index) => <TabPane tab={board.name} key={board.id.toString()}>
+            {board.type === constants.LOGLINE ? 
+              <Logline 
+              content={this.state.content} 
+              onChange={(ev) => {
+                const content = ev.target.value;
+                debugger;
+                this.setContent(board.id, content);
+              }} 
+
+              id={board.id}
+              />
+            : 
             <Board 
               id={board.id} 
               content={this.state.content} 
@@ -111,7 +124,7 @@ class App extends React.Component {
               currentElement={currentElement}
               setCurrentElement={this.setCurrentElement}
               removeElement={this.removeElement}
-              /> </TabPane>)}
+            /> }</TabPane>)}
           </Tabs>
           
         </div>
