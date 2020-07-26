@@ -1,10 +1,11 @@
 import React, {useState} from 'react';
 import {PageHeader, Descriptions, Select, Typography, Button, Modal} from 'antd';
 import TextField from '@material-ui/core/TextField';
+import set from 'lodash/set';
 import './style.scss';
 const {Option} = Select;
 const {Title} = Typography;
-const genre = ['Action Adventure',
+const genreOptions = ['Action Adventure',
     'Thriller',
    'Romantic Comedy',
     'Horror',
@@ -21,7 +22,7 @@ const genre = ['Action Adventure',
     'Period',
     'Historical',
     'Musical'];
-const subGenre = ['None',
+const subGenreOptions = ['None',
     'Comedy',
     'Horror',
     'Drama',
@@ -39,8 +40,37 @@ const subGenre = ['None',
     'Erotic',
     'Fish-out-of water',
     'Coming-of-age'];
-function Logline(props) {
-    const [visible, setVisible] = useState(false);
+class Logline extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            visible: false,
+            logline: {
+                character: "",
+                crisis: "",
+                response: "",
+            },
+            theme: "",
+            genre: genreOptions[0],
+            subGanre: subGenreOptions[0],
+            title: "",
+        }
+    }
+    
+    setVisible = (value) => {
+        this.setState({visible: value})
+    }
+    setFieldValue = (path, value) => {
+        this.setState((prev) => {
+            const newState = set(prev, path, value);
+            debugger
+            return newState
+        });
+    }
+    render() {
+    const {logline, visible, theme, genre, subGanre, title} = this.state;
+    const {setVisible, setFieldValue} = this;
+    debugger
     return (<div className="logline-container">
         <Button type="link" onClick={() => setVisible(true)}>
             How to write a logline
@@ -52,13 +82,13 @@ function Logline(props) {
                     subTitle="These three questions will get at the guts of your story. Sentence length is limited - if you find you can't add more letters, use fewer or shorter words.">
                         <Descriptions  column={1}>
                             <Descriptions.Item label="a. Your main character (use adjectives, emotional state) who wants x (a basic desire)">
-                                <TextField fullWidth label="....E.g., A shy young suburban boy who wants to be noticed..."/>
+                                <TextField value={logline.character} onChange={(ev) => setFieldValue('logline.character', ev.target.value)} fullWidth label="....E.g., A shy young suburban boy who wants to be noticed..."/>
                             </Descriptions.Item>
                             <Descriptions.Item label="b. What CRISIS is he/she/are they facing? Hint: Start with an ACTIVE VERB.">
-                                <TextField fullWidth label="...... discovers a strange but friendly alien living in his shed..."/>
+                                <TextField value={logline.crisis} onChange={(ev) => setFieldValue('logline.crisis', ev.target.value)} fullWidth label="...... discovers a strange but friendly alien living in his shed..."/>
                             </Descriptions.Item>
                             <Descriptions.Item label="c. How does he/she/do they respond to try and deal with it? Hint: Not too much detail.">
-                                <TextField fullWidth label="...... and tries to help him get home while keeping his existence a secret. (E.T., The Extra Terrestrial)"/>
+                                <TextField value={logline.response} onChange={(ev) => setFieldValue('logline.response', ev.target.value)} fullWidth label="...... and tries to help him get home while keeping his existence a secret. (E.T., The Extra Terrestrial)"/>
                             </Descriptions.Item>
                         </Descriptions>
                 </PageHeader>
@@ -72,7 +102,7 @@ function Logline(props) {
             >
                 <Descriptions  column={1}>
                             <Descriptions.Item label="Make it a one word answer, as corny as it may sound, like Love, Betrayal, or Prejudice. Philadelphia, for example is a story about prejudice; Star Wars is a story about heroism.">
-                                <TextField fullWidth label="Your theme:....."/>
+                                <TextField value={theme} onChange={(ev) => setFieldValue('theme', ev.target.value)} fullWidth label="Your theme:....."/>
                             </Descriptions.Item>
                 </Descriptions>
             </PageHeader>
@@ -87,7 +117,7 @@ function Logline(props) {
             >
                 <Descriptions  column={1}>
                             <Descriptions.Item label="Based on your theme, choose a title (for now).">
-                                <TextField fullWidth label="Your title:........."/>
+                                <TextField value={title} onChange={(ev) => setFieldValue('title', ev.target.value)} fullWidth label="Your title:........."/>
                             </Descriptions.Item>
                 </Descriptions>
             </PageHeader>
@@ -98,13 +128,13 @@ function Logline(props) {
             >
                 <Descriptions  column={1}>
                     <Descriptions.Item label="Genre">
-                            <Select name="Genre" defaultValue={genre[0]} style={{ width: 200 }} >
-                                {genre.map(g => <Option value={g}>{g}</Option>)}
+                            <Select name="Genre" value={genre} style={{ width: 200 }} onChange={(value) => setFieldValue('genre', value)} >
+                                {genreOptions.map((g,i )=> <Option key={`genre-${i}`} value={g}>{g}</Option>)}
 	                        </Select>           
                     </Descriptions.Item>
                     <Descriptions.Item label="Sub-Genre">
-                        <Select name="Sub-Genre" defaultValue={subGenre[0]} style={{ width: 200 }}>
-                            {subGenre.map(s => <Option value={s}>{s}</Option>)}
+                        <Select name="Sub-Genre" value={subGanre} style={{ width: 200 }} onChange={(value) => setFieldValue('subGanre', value)} >
+                            {subGenreOptions.map((s,i) => <Option key={`sub-genre-${i}`} value={s}>{s}</Option>)}
                         </Select>
                     </Descriptions.Item>
 
@@ -126,5 +156,7 @@ function Logline(props) {
             {/* <EditableDiv placeholder="describe the story" {...props} value={props.content[props.id]}/> */}
         </div>
     </div>)
+
+    }
 }
 export default Logline;
