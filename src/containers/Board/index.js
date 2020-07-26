@@ -4,7 +4,7 @@ import './style.scss';
 import constants from '../../constants';
 import elementTypes from '../App/elementTypes';
 function Board(props) {
-    const {elements, content, setElementCount, elementsCount, addBoard, elementsList, setElemetsList, currentElement, setCurrentElement, removeElement} = props;
+    const {elements, content, setElementCount, elementsCount, addBoard, elementsList, setElemetsList, currentElement, setCurrentElement, removeElement, id} = props;
     let currentElementRef = useRef(null)
     useEffect(() => {
         if(currentElementRef && currentElementRef.focus) {
@@ -23,27 +23,27 @@ function Board(props) {
         currentElementRef = element;
     }
     const addParanthetical = function () {
-        setElemetsListToState(elementTypes.paranthetical(elementsCount))
+        setElemetsListToState(elementTypes.paranthetical(elementsCount, id))
         setElementCount({parantheticals: elementsCount.parantheticals + 1});
         
     }
     const addTransition = () => {
-        setElemetsListToState(elementTypes.transition(elementsCount))
+        setElemetsListToState(elementTypes.transition(elementsCount, id))
         setElementCount({ transition: elementsCount.transition + 1});
     
     }
     const addDialogue = () => {
-        setElemetsListToState(elementTypes.dialogue(elementsCount))
+        setElemetsListToState(elementTypes.dialogue(elementsCount, id))
         setElementCount({dialogue: elementsCount.dialogue + 1});
     
     }
     const insertChar = function() {
-        setElemetsListToState(elementTypes.charecter(elementsCount));
+        setElemetsListToState(elementTypes.charecter(elementsCount, id));
         setElementCount({ charector: elementsCount.charector + 1});
 
     }
     const addAction = function() {
-        setElemetsListToState(elementTypes.action(elementsCount))
+        setElemetsListToState(elementTypes.action(elementsCount, id))
         setElementCount({ action: elementsCount.action + 1});
     }
     const addSceneHeading = () => {

@@ -23,27 +23,32 @@ class App extends React.Component {
       parantheticals: 0,
       transition: 0,
   };
+  const elementsLists = {1: [{type: constants.SCENE_HEADING, sceneNumber: elementsCount.sceneHeading, id: `board-${1}-sceneHeading-${elementsCount.sceneHeading}`}]}
     this.state = {
       boards: [{id: 'logline', type: constants.LOGLINE, name: 'Logline'}, {id: 1, note: "", name: 'Scene-1'}],
       activeBoard: 1,
       content: {},
       scriptContent: new Map(),
       elementsCount,
-      elementsList: [{type: constants.SCENE_HEADING, sceneNumber: elementsCount.sceneHeading, id: `sceneHeading-${elementsCount.sceneHeading}`}],
+      elementsLists: elementsLists,
+      currentElementsList: elementsLists[1],
       currentElement: `sceneHeading-${elementsCount.sceneHeading}`,
     };
   }
   setElemetsList = (newEle) => {
     this.setState(prevState => {
-      const prevElList = prevState.elementsList;
-      return {...prevState, elementsList: [...prevElList, newEle]}
+      const prevElList = {...prevState.elementsLists};
+      prevElList[prevState.activeBoard] = [...prevElList[prevState.activeBoard], newEle]
+      return {...prevState, elementsLists: prevElList, currentElementsList: prevElList[prevState.activeBoard]}
     });
   }
   removeElement = (eleId) => {
-    const {elementsList} = this.state;
-    if(elementsList.length > 1 && eleId){
-      const newElementsList = elementsList.filter(el => el.id !== eleId);
-      this.setState({elementsList: newElementsList});
+    const {currentElementsList, activeBoard} = this.state;
+    const elementsLists = {...this.state.elementsLists};
+    if(currentElementsList.length > 1 && eleId){
+      const newElementsList = currentElementsList.filter(el => el.id !== eleId);
+      elementsLists[activeBoard] = newElementsList;
+      this.setState({elementsLists, currentElementsList: newElementsList});
       this.setCurrentElement(newElementsList[newElementsList.length - 1].id);
       this.setContent(eleId, undefined, true);
   }
@@ -52,11 +57,14 @@ class App extends React.Component {
     this.setState({currentElement: ele});
   }
   addBoard = () => {
+    const {elementsCount} = this.state;
     this.setState((prevState) => {
       const boards = [...prevState.boards];
       const newBoard = {id: boards.length + 1, note: "", name: `Scene-${boards.length + 1}`};
       boards.push(newBoard);
-      return {...prevState, boards, activeBoard: newBoard.id} 
+      const elementsLists = {...prevState.elementsLists};
+      elementsLists[newBoard.id] = [{type: constants.SCENE_HEADING, sceneNumber: elementsCount.sceneHeading, id: `board-${newBoard.id}-sceneHeading-${elementsCount.sceneHeading}`}];
+      return {...prevState, boards, activeBoard: newBoard.id, elementsLists, currentElementsList: elementsLists[newBoard.id]} 
     })
   }
   setContent = (id, value, isRemove) => {
@@ -80,13 +88,18 @@ class App extends React.Component {
     })
   }
   onTabChange = (activeKey) => {
-    this.setState({activeBoard: activeKey})
+    const newState = {activeBoard: activeKey};
+    if(activeKey !== "logline") {//if not log line page
+      const {elementsLists} = this.state;
+      newState.currentElementsList = elementsLists[activeKey]
+    }
+    this.setState(newState);
   }
   onSave = () => {
     saveScript(this.state.scriptContent);
   }
   render() {
-    const {activeBoard, currentElement, elementsCount} = this.state;
+    const {activeBoard, currentElement, elementsCount, currentElementsList} = this.state;
     return (
       <div className="App">
         <header className="App-header center">
@@ -114,12 +127,13 @@ class App extends React.Component {
             : 
             <Board 
               id={board.id} 
+              key={`board-${board.id}`}
               content={this.state.content} 
               setContent={this.setContent} 
               elementsCount={this.state.elementsCount} 
               setElementCount={this.setElementCount}
               addBoard={this.addBoard}
-              elementsList={this.state.elementsList}
+              elementsList={currentElementsList}
               setElemetsList={this.setElemetsList}
               currentElement={currentElement}
               setCurrentElement={this.setCurrentElement}
@@ -137,24 +151,24 @@ class App extends React.Component {
                 this.addBoard();
               }} >Scene heading</Button>
               <Button onClick={() => {
-                this.setElemetsList(elementTypes.action(elementsCount));
+                this.setElemetsList(elementTypes.action(elementsCount, activeBoard));
                 this.setElementCount({ action: elementsCount.action + 1});
               }}>Action</Button>
               <Button onClick={() => {
-                this.setElemetsList(elementTypes.charecter(elementsCount));
+                this.setElemetsList(elementTypes.charecter(elementsCount, activeBoard));
                 this.setElementCount({ charector: elementsCount.charector + 1});
               }} >Character</Button>
               <Button onClick={() => {
-                this.setElemetsList(elementTypes.paranthetical(elementsCount));
+                this.setElemetsList(elementTypes.paranthetical(elementsCount, activeBoard));
                 this.setElementCount({parantheticals: elementsCount.parantheticals + 1});
               }} >Paranthetical</Button>
               <Button onClick={() => {
-                this.setElemetsList(elementTypes.dialogue(elementsCount));
+                this.setElemetsList(elementTypes.dialogue(elementsCount, activeBoard));
                 this.setElementCount({dialogue: elementsCount.dialogue + 1});
 
               }} >Dialogue</Button>
               <Button onClick={() => {
-                this.setElemetsList(elementTypes.transition(elementsCount));
+                this.setElemetsList(elementTypes.transition(elementsCount, activeBoard));
                 this.setElementCount({ transition: elementsCount.transition + 1});
 
               }} >Transition</Button>
