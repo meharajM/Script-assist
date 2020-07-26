@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
-import {PageHeader, Descriptions, Input, Select, Typography, Button, Modal} from 'antd';
-import EditableDiv from '../EditableDiv';
+import {PageHeader, Descriptions, Select, Typography, Button, Modal} from 'antd';
+import TextField from '@material-ui/core/TextField';
 import './style.scss';
 const {Option} = Select;
 const {Title} = Typography;
@@ -50,15 +50,15 @@ function Logline(props) {
                 <PageHeader
                     title={"1. Your Story Idea"}
                     subTitle="These three questions will get at the guts of your story. Sentence length is limited - if you find you can't add more letters, use fewer or shorter words.">
-                        <Descriptions size="small" column={1}>
+                        <Descriptions  column={1}>
                             <Descriptions.Item label="a. Your main character (use adjectives, emotional state) who wants x (a basic desire)">
-                                <Input placeholder="....E.g., A shy young suburban boy who wants to be noticed..."/>
+                                <TextField fullWidth label="....E.g., A shy young suburban boy who wants to be noticed..."/>
                             </Descriptions.Item>
                             <Descriptions.Item label="b. What CRISIS is he/she/are they facing? Hint: Start with an ACTIVE VERB.">
-                                <Input placeholder="...... discovers a strange but friendly alien living in his shed..."/>
+                                <TextField fullWidth label="...... discovers a strange but friendly alien living in his shed..."/>
                             </Descriptions.Item>
                             <Descriptions.Item label="c. How does he/she/do they respond to try and deal with it? Hint: Not too much detail.">
-                                <Input placeholder="...... and tries to help him get home while keeping his existence a secret. (E.T., The Extra Terrestrial)"/>
+                                <TextField fullWidth label="...... and tries to help him get home while keeping his existence a secret. (E.T., The Extra Terrestrial)"/>
                             </Descriptions.Item>
                         </Descriptions>
                 </PageHeader>
@@ -70,9 +70,9 @@ function Logline(props) {
                     title={"2. Your Theme"}
                     subTitle={`THEME is what people want to know when they ask that annoying question, "So what's it about?"`}
             >
-                <Descriptions size="small" column={1}>
+                <Descriptions  column={1}>
                             <Descriptions.Item label="Make it a one word answer, as corny as it may sound, like Love, Betrayal, or Prejudice. Philadelphia, for example is a story about prejudice; Star Wars is a story about heroism.">
-                                <Input placeholder="Your theme:....."/>
+                                <TextField fullWidth label="Your theme:....."/>
                             </Descriptions.Item>
                 </Descriptions>
             </PageHeader>
@@ -85,9 +85,9 @@ function Logline(props) {
             <PageHeader
                     title={"3. Your Title"}
             >
-                <Descriptions size="small" column={1}>
+                <Descriptions  column={1}>
                             <Descriptions.Item label="Based on your theme, choose a title (for now).">
-                                <Input placeholder="Your title:........."/>
+                                <TextField fullWidth label="Your title:........."/>
                             </Descriptions.Item>
                 </Descriptions>
             </PageHeader>
@@ -96,7 +96,7 @@ function Logline(props) {
                 <PageHeader
                     title={"4. What type of film is it?"}
             >
-                <Descriptions size="small" column={1}>
+                <Descriptions  column={1}>
                     <Descriptions.Item label="Genre">
                             <Select name="Genre" defaultValue={genre[0]} style={{ width: 200 }} >
                                 {genre.map(g => <Option value={g}>{g}</Option>)}
