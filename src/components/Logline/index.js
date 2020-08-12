@@ -54,6 +54,7 @@ class Logline extends React.Component {
             genre: genreOptions[0],
             subGanre: subGenreOptions[0],
             title: "",
+            isEdit: true,
         }
     }
     
@@ -67,15 +68,26 @@ class Logline extends React.Component {
             return newState
         });
     }
+    getShortLogline = () => {
+        const {logline} = this.state;
+        return `${logline.character} ${logline.crisis} ${logline.response}`
+    }
+    onSave = () => {
+        this.setState({isEdit: false})
+    }
+    onEdit = () => {
+        this.setState({isEdit: true})
+    }
     render() {
-    const {logline, visible, theme, genre, subGanre, title} = this.state;
+    const {logline, visible, theme, genre, subGanre, title, isEdit} = this.state;
     const {setVisible, setFieldValue} = this;
     debugger
     return (<div className="logline-container">
         <Button type="link" onClick={() => setVisible(true)}>
             How to write a logline
         </Button>
-        <div className="logline">
+        {isEdit ? 
+            <div className="logline-create">
             <div>
                 <PageHeader
                     title={"1. Your Story Idea"}
@@ -137,12 +149,48 @@ class Logline extends React.Component {
                             {subGenreOptions.map((s,i) => <Option key={`sub-genre-${i}`} value={s}>{s}</Option>)}
                         </Select>
                     </Descriptions.Item>
-
+                    <Descriptions.Item>
+                        <Button onClick={this.onSave} type="primary">Save</Button>
+                    </Descriptions.Item>
                 </Descriptions>
             </PageHeader>
         </div>
-        <Title level={4}>Now put the three answers together as a sentence, and you have your logline! You will probably have to work on it some more.</Title>
-        <Modal
+        
+            {/* <EditableDiv placeholder="describe the story" {...props} value={props.content[props.id]}/> */}
+        </div>
+        : 
+            <div className='logline-view'>
+                <PageHeader
+                    ghost={false}
+                    title={title}
+                    extra={[
+                        
+                        <Button key="2">Print</Button>,
+                        <Button key="1" type="primary" onClick={this.onEdit}>
+                        Edit
+                        </Button>,
+                    ]}
+                    >
+            <Descriptions size="small" column={1}>
+                <Descriptions.Item label="Logline (elivator pitch)">
+                    {this.getShortLogline()}
+                </Descriptions.Item>
+                <Descriptions.Item label="Theme">
+                    {theme}
+                </Descriptions.Item>
+                <Descriptions.Item label="Genre">
+                    {genre}, {subGanre}
+                </Descriptions.Item>
+            </Descriptions>
+            <Descriptions size="small" column={2}>
+                <Descriptions.Item label="Writer(s)">name of user</Descriptions.Item>
+                <Descriptions.Item label="Last modified">2017-01-10</Descriptions.Item>
+                
+            </Descriptions>
+            </PageHeader>
+            </div>
+    }
+    <Modal
           title="How to write log line"
           visible={visible}
           onOk={() => setVisible(false)}
@@ -152,9 +200,7 @@ class Logline extends React.Component {
         >
                   <iframe width="560" height="315" src="https://www.youtube.com/embed/r0Fj_H9Q73k" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
-        </Modal>
-            {/* <EditableDiv placeholder="describe the story" {...props} value={props.content[props.id]}/> */}
-        </div>
+    </Modal>
     </div>)
 
     }
