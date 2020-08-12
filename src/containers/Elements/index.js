@@ -52,7 +52,7 @@ class Element extends React.Component {
         const {removeElement, id, onContentChange} = this.props;
         let content = e.currentTarget.innerText;
         const fullId = e.currentTarget.id;
-        const [currentElement, eleId, type] = fullId.split('-');
+        const [board, boardId, currentElement, eleId, type] = fullId.split('-');
         const isEnter = e.key === 'Enter';
         const isBackSpace = e.key === 'Backspace';
         const addElementAction = getAddElementAction(e.key, e.shiftKey, this.props);
@@ -71,10 +71,17 @@ class Element extends React.Component {
             e.preventDefault();
         } else {
                 const key = e.key.toLowerCase();
-
+                console.log(e.keyCode);
                 if(currentElement === 'sceneHeading'){
+                    const inp = String.fromCharCode(e.keyCode);
+                    const isCharKey = /[a-zA-Z0-9-_ ]/.test(inp);
                     if(type === 'int_ext') {
-                        if(key === 'i') {
+                        if(key === 'backspace') {
+                            content = "";
+                            e.preventDefault();
+                        } else if((content === 'INT' || content === 'EXT') && isCharKey) {
+                            e.preventDefault();
+                        } else if(key === 'i') {
                             content = 'INT';
                             e.preventDefault();
                         }else if(key === 'e'){
@@ -82,14 +89,17 @@ class Element extends React.Component {
                             e.preventDefault();
                         }
                     } else if(type === 'time') {
-                        if(key === 'd') {
+                        if(key === 'backspace') {
+                            content = "";
+                            e.preventDefault();
+                        } else if((content === 'DAY' || content === 'NIGHT') && isCharKey) {
+                            e.preventDefault();
+                        } else if(key === 'd') {
                             content = 'DAY';
                             e.preventDefault();
-
                         }else if(key === 'n'){
                             content = 'NIGHT'
                             e.preventDefault();
-
                         }
                     } else if(type === "location") {
                         // onContentChange(location_id, ev.currentTarget.innerText.trim());
