@@ -10,32 +10,33 @@ import Dialogue from '../../components/Dialogue';
 import Transition from '../../components/Transition';
 import ElementOptions from '../../components/ElementOptions';
 function getAddElementAction(key, isShift, props) {
-    const { addAction, addTransition,addDialogue, addParanthetical, insChar, addSceneHeading} = props;
-    const action = isShift && key.toLowerCase();
-    let addElementAction;
-    switch(action) {
-        case 's':
-            addElementAction = addSceneHeading;
-            break;
-        case 'a':
-            addElementAction = addAction;
-            break;
-        case 't':
-            addElementAction = addTransition;
-            break;
-        case 'd':
-            addElementAction = addDialogue;
-            break;
-        case 'p':
-            addElementAction = addParanthetical;
-            break;
-        case 'c':
-            addElementAction = insChar;
-            break;
-        default: 
-            addElementAction = null;
-    }
-    return addElementAction;
+    return false; // disabling short cuts
+    // const { addAction, addTransition,addDialogue, addParanthetical, insChar, addSceneHeading} = props;
+    // const action = isShift && key.toLowerCase();
+    // let addElementAction;
+    // switch(action) {
+    //     case 's':
+    //         addElementAction = addSceneHeading;
+    //         break;
+    //     case 'a':
+    //         addElementAction = addAction;
+    //         break;
+    //     case 't':
+    //         addElementAction = addTransition;
+    //         break;
+    //     case 'd':
+    //         addElementAction = addDialogue;
+    //         break;
+    //     case 'p':
+    //         addElementAction = addParanthetical;
+    //         break;
+    //     case 'c':
+    //         addElementAction = insChar;
+    //         break;
+    //     default: 
+    //         addElementAction = null;
+    // }
+    // return addElementAction;
 }
 class Element extends React.Component {
     constructor(props) {
@@ -51,7 +52,7 @@ class Element extends React.Component {
         const {removeElement, id, onContentChange} = this.props;
         let content = e.currentTarget.innerText;
         const fullId = e.currentTarget.id;
-        const [currentElement, eleId, type] = fullId.split('-');
+        const [board, boardId, currentElement, eleId, type] = fullId.split('-');
         const isEnter = e.key === 'Enter';
         const isBackSpace = e.key === 'Backspace';
         const addElementAction = getAddElementAction(e.key, e.shiftKey, this.props);
@@ -70,19 +71,35 @@ class Element extends React.Component {
             e.preventDefault();
         } else {
                 const key = e.key.toLowerCase();
-
+                console.log(e.keyCode);
                 if(currentElement === 'sceneHeading'){
+                    const inp = String.fromCharCode(e.keyCode);
+                    const isCharKey = /[a-zA-Z0-9-_ ]/.test(inp);
                     if(type === 'int_ext') {
-                        if(key === 'i') {
+                        if(key === 'backspace') {
+                            content = "";
+                            e.preventDefault();
+                        } else if((content === 'INT' || content === 'EXT') && isCharKey) {
+                            e.preventDefault();
+                        } else if(key === 'i') {
                             content = 'INT';
+                            e.preventDefault();
                         }else if(key === 'e'){
                             content = 'EXT';
+                            e.preventDefault();
                         }
                     } else if(type === 'time') {
-                        if(content === 'd') {
+                        if(key === 'backspace') {
+                            content = "";
+                            e.preventDefault();
+                        } else if((content === 'DAY' || content === 'NIGHT') && isCharKey) {
+                            e.preventDefault();
+                        } else if(key === 'd') {
                             content = 'DAY';
-                        }else if(content === 'n'){
+                            e.preventDefault();
+                        }else if(key === 'n'){
                             content = 'NIGHT'
+                            e.preventDefault();
                         }
                     } else if(type === "location") {
                         // onContentChange(location_id, ev.currentTarget.innerText.trim());
