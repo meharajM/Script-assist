@@ -60,11 +60,14 @@ class App extends React.Component {
     const {elementsCount} = this.state;
     this.setState((prevState) => {
       const boards = [...prevState.boards];
-      const newBoard = {id: boards.length + 1, note: "", name: `Scene-${boards.length + 1}`};
+      const newId = boards[boards.length - 1].id + 1;
+      debugger;
+      const newBoard = {id: newId, note: "", name: `Scene-${newId}`};
       boards.push(newBoard);
       const elementsLists = {...prevState.elementsLists};
+      // const newElementsCount = {...prevState.elementsCount, sceneHeading: prevState.elementsCount.sceneHeading + 1}
       elementsLists[newBoard.id] = [{type: constants.SCENE_HEADING, sceneNumber: elementsCount.sceneHeading, id: `board-${newBoard.id}-sceneHeading-${elementsCount.sceneHeading}`}];
-      return {...prevState, boards, activeBoard: newBoard.id, elementsLists, currentElementsList: elementsLists[newBoard.id]} 
+      return {...prevState, boards, activeBoard: newBoard.id, elementsLists, currentElementsList: elementsLists[newBoard.id],} 
     })
   }
   setContent = (id, value, isRemove) => {

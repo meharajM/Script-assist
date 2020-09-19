@@ -9,6 +9,7 @@ import Paranthetical from '../../components/Paranthetical';
 import Dialogue from '../../components/Dialogue';
 import Transition from '../../components/Transition';
 import ElementOptions from '../../components/ElementOptions';
+import {shouldShowOptions} from '../../utils/appUtils';
 function getAddElementAction(key, isShift, props) {
     return false; // disabling short cuts
     // const { addAction, addTransition,addDialogue, addParanthetical, insChar, addSceneHeading} = props;
@@ -48,9 +49,14 @@ class Element extends React.Component {
     setShow = (show) => {
         this.setState({show});
     }
+    toggleSetShow = () => {
+        this.setShow(!this.state.show)
+    }
     onKeyDown = (e) => {
         const {removeElement, id, onContentChange} = this.props;
         let content = e.currentTarget.innerText;
+        console.log("inside set keydown before", e.currentTarget.innerHTML);
+
         const fullId = e.currentTarget.id;
         const [board, boardId, currentElement, eleId, type] = fullId.split('-');
         const isEnter = e.key === 'Enter';
@@ -59,8 +65,8 @@ class Element extends React.Component {
         if(addElementAction) {
             addElementAction();
             e.preventDefault();
-        } else if(isEnter && e.shiftKey) {
-            this.setShow(!this.state.show)
+        } else if(shouldShowOptions(e)) {
+            this.toggleSetShow();
             e.preventDefault();
         } else if(isBackSpace && !content.length) {
             if(currentElement !== 'sceneHeading' || (currentElement === 'sceneHeading' && type === 'int_ext')) {
@@ -115,7 +121,7 @@ class Element extends React.Component {
                     }
                 } 
                 
-            
+            console.log("inside set keydown", content);
             onContentChange(fullId, content)
         }
     }   
@@ -123,7 +129,7 @@ class Element extends React.Component {
     render() {
         const {type, id} = this.props;
         const {show} = this.state;
-        const elementProps = {onKeyDown: this.onKeyDown}
+        const elementProps = {onKeyDown: this.onKeyDown, onContentChange: this.onContentChange, toggleElementOptions: this.toggleSetShow}
         let Element = null; 
 
         switch(type) {
