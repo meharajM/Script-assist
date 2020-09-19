@@ -19,10 +19,10 @@ class SceneHeading extends React.Component{
        const {content, sceneNumber, elementRef, onFocus, onKeyDown, ...rest} = this.props;
     return <div>
         <div className="scene-heading-summary-header">
-            <div className="scene-number">Scene summary: </div><EditableDiv key={summary_id} className="scene-heading-summary" id={summary_id} placeholder="  Scene description" value={content[summary_id]} onKeyDown={onKeyDown}/>
+            <div className="scene-number">Scene summary: </div><EditableDiv elementRef={elementRef} key={summary_id} className="scene-heading-summary" id={summary_id} placeholder="  Scene description" value={content[summary_id]} onKeyDown={onKeyDown}/>
         </div>
         <div className="scene-heading">
-            <EditableDiv key={int_id} className="int-ext" placeholder="INT/EXT" elementRef={elementRef} id={int_id} onKeyUp={onKeyDownHere} value={content[int_id]} onFocus={onFocus} onKeyDown={onKeyDown}/>
+            <EditableDiv key={int_id} className="int-ext" placeholder="INT/EXT" id={int_id} onKeyUp={onKeyDownHere} value={content[int_id]} onFocus={onFocus} onKeyDown={onKeyDown}/>
             <EditableDiv key={location_id} className="location" placeholder="LOCATION" id={location_id} onKeyUp={onKeyDownHere} value={content[location_id]} onFocus={onFocus} onKeyDown={onKeyDown}/>
             <EditableDiv key={time_id} className="time" contentEditable={true} placeholder="DAY/NIGHT" {...rest} onKeyUp={onKeyDownHere} id={time_id} value={content[time_id]} onFocus={onFocus} onKeyDown={onKeyDown}></EditableDiv>
         </div>

@@ -23,7 +23,8 @@ class App extends React.Component {
       parantheticals: 0,
       transition: 0,
   };
-  const elementsLists = {1: [{type: constants.SCENE_HEADING, sceneNumber: elementsCount.sceneHeading, id: `board-${1}-sceneHeading-${elementsCount.sceneHeading}`}]}
+  const defaultElement = {type: constants.SCENE_HEADING, sceneNumber: elementsCount.sceneHeading, id: `board-${1}-sceneHeading-${elementsCount.sceneHeading}`};
+  const elementsLists = {1: [defaultElement]}
     this.state = {
       boards: [{id: 'logline', type: constants.LOGLINE, name: 'Logline'}, {id: 1, note: "", name: 'Scene-1'}],
       activeBoard: 1,
@@ -32,7 +33,7 @@ class App extends React.Component {
       elementsCount,
       elementsLists: elementsLists,
       currentElementsList: elementsLists[1],
-      currentElement: `sceneHeading-${elementsCount.sceneHeading}`,
+      currentElement: defaultElement.id,
     };
   }
   setElemetsList = (newEle) => {
@@ -66,8 +67,9 @@ class App extends React.Component {
       boards.push(newBoard);
       const elementsLists = {...prevState.elementsLists};
       // const newElementsCount = {...prevState.elementsCount, sceneHeading: prevState.elementsCount.sceneHeading + 1}
-      elementsLists[newBoard.id] = [{type: constants.SCENE_HEADING, sceneNumber: elementsCount.sceneHeading, id: `board-${newBoard.id}-sceneHeading-${elementsCount.sceneHeading}`}];
-      return {...prevState, boards, activeBoard: newBoard.id, elementsLists, currentElementsList: elementsLists[newBoard.id],} 
+      const newScene = {type: constants.SCENE_HEADING, sceneNumber: elementsCount.sceneHeading, id: `board-${newBoard.id}-sceneHeading-${elementsCount.sceneHeading}`};
+      elementsLists[newBoard.id] = [newScene];
+      return {...prevState, boards, activeBoard: newBoard.id, elementsLists, currentElementsList: elementsLists[newBoard.id], currentElement: newScene.id} 
     })
   }
   setContent = (id, value, isRemove) => {
