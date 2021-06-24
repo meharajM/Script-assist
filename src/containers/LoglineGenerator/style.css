@@ -1,0 +1,23 @@
+.site-layout-content {
+    min-height: 280px;
+    padding: 24px;
+    background: #fff;
+    height: 90vh;
+  }
+  .section-name {
+   
+    color: white;
+    font-weight: bold;
+    font-size: large;
+  }
+  
+  .ant-row-rtl #components-layout-demo-top .logo {
+    float: right;
+    margin: 16px 0 16px 24px;
+  }
+
+  .ant-layout-footer{
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+  }
